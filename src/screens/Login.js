@@ -78,7 +78,8 @@ class Login extends Component {
         
     clear = () => {
         this.SearchInput._root.clear();
-      }
+    }
+
     render() {
         return(
             <Container>
@@ -92,12 +93,12 @@ class Login extends Component {
                     <Item floatingLabel>
                         <Label>Username</Label>
                             <Input keyboardType="email-address" onChangeText={this.onChangeTextEmail} getRef={input => {
-      this.SearchInput = input;
-    }}/>
+                            this.SearchInput = input;}}/>
                     </Item>
                     <Item floatingLabel>
                         <Label>Password</Label>
-                            <Input secureTextEntry={true} onChangeText={this.onChangeTextPassword}/>
+                            <Input secureTextEntry={true} onChangeText={this.onChangeTextPassword} getRef={input => {
+                            this.SearchInput = input;}}/>
                     </Item>
                     <TouchableOpacity style={styles.button} onPress={() => {this.handleSubmit()}}>
                         <Text style={styles.buttonText}>Login</Text>
