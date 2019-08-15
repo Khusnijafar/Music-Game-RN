@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, AsyncStorage, Image   } from "react-native";
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, AsyncStorage, Image, Alert   } from "react-native";
 import { Root, Toast, Form, Item, Input, Label, Container, Button } from 'native-base';
-import axios from 'axios';
-// import { connect } from "react-redux";
-// import { login } from "../public/redux/action/user";
+import { connect } from "react-redux";
+import { login } from "../public/redux/action/user";
 
 class Login extends Component {
     constructor(props) {
@@ -13,71 +12,23 @@ class Login extends Component {
             password: ""
         }
     }
-    onChangeTextEmail = email => this.setState({ email })
-    onChangeTextPassword = password => this.setState({ password })
 
-    handleSubmit = () => {
-        // alert('halo')
-       let regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if (this.state.email === '' || this.state.password === '') {
-            Toast.show({
-                text: 'Email or Password is required',
-                buttonText: "Okay",
-                type: 'danger',
-                duration: 3000
-            })
-        } else if (this.state.email < 6 || this.state.email === "") {
-            Toast.show({
-                text: 'Invalid email',
-                buttonText: "Okay",
-                type: 'danger',
-                duration: 3000
-            })
-        } else if (regex.test(this.state.email) === false) {
-            Toast.show({
-                text: "Incorrect email format",
-                buttonText: "Okay",
-                type: "danger",
-                duration: 3000
-            })
-        } else {
-        Toast.show({
-            text: "Login failed",
-            position: "top",
-            type: "danger",
-            duration: 3000
+    handleSubmit = async () => {
+       await this.props.dispatch(login({
+           email: this.state.email,
+           password: this.state.password
+       }))
+         .then((response) => {
+             AsyncStorage.setItem('token', response.action.payload.data.result.token.toString())
+             AsyncStorage.setItem('id_user', response.action.payload.data.result.id_user.toString())
+             AsyncStorage.setItem('fullname', response.action.payload.data.result.fullname.toString())
+             Alert.alert("Login Berhasil")
+             this.props.navigation.navigate('Home')
+         })
+         .catch((err) => {
+            console.warn(err)
+            Alert.alert("Gagal Login")
         })
-        }
-        let dataLogin = {
-        email: this.state.email,
-        password: this.state.password
-        }
-        let headers = {'authorization':'khusni', 'Content-Type': 'application/json'} 
-
-        axios.post('http://192.168.6.196:3002/users/login', dataLogin, {headers})
-        .then(res => {
-            AsyncStorage.setItem('token', JSON.stringify(res.data.result.token))
-            AsyncStorage.setItem('id_user', JSON.stringify(res.data.result.id_user))
-        console.log(res);
-        Toast.show({
-            text: "Login successful",
-            position: "top",
-            type: "success",
-            duration: 3000
-        })
-        this.clear()
-        AsyncStorage.getItem('token')
-        .then((res) => {
-            token = res
-        })        
-        this.props.navigation.navigate('Home')
-        })
-        .catch(err => console.log(err));
-
-    }
-        
-    clear = () => {
-        this.SearchInput._root.clear();
     }
 
     render() {
@@ -92,13 +43,11 @@ class Login extends Component {
                     </View>
                     <Item floatingLabel>
                         <Label>Username</Label>
-                            <Input keyboardType="email-address" onChangeText={this.onChangeTextEmail} getRef={input => {
-                            this.SearchInput = input;}}/>
+                            <Input keyboardType="email-address" onChangeText={(email) => this.setState({ email })} value={this.state.email} />
                     </Item>
                     <Item floatingLabel>
                         <Label>Password</Label>
-                            <Input secureTextEntry={true} onChangeText={this.onChangeTextPassword} getRef={input => {
-                            this.SearchInput = input;}}/>
+                            <Input secureTextEntry={true} onChangeText={(password) => this.setState({ password })} value={this.state.password} />
                     </Item>
                     <TouchableOpacity style={styles.button} onPress={() => {this.handleSubmit()}}>
                         <Text style={styles.buttonText}>Login</Text>
@@ -113,15 +62,14 @@ class Login extends Component {
     }
 }
 
-// const mapStateToProps = state => {
-//     return {
-//       user: state.user.user
-//     };
-// };
+const mapStateToProps = state => {
+    return {
+      user: state.user
+    };
+};
 
-// export default connect(mapStateToProps)(Login);
+export default connect(mapStateToProps)(Login);
 
-export default Login
 
 const styles = StyleSheet.create({
 container : {

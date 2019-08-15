@@ -1,10 +1,11 @@
 import axios from 'axios'
 import { AsyncStorage } from 'react-native'
+const url = 'http://192.168.6.196:3002'
 
-export const login = (data) => {
+export const getSound = () => {
     return {
-        type: 'LOGIN',
-        payload: axios.post('http://192.168.6.196:3002/users/login', data, 
+        type: 'GET_SOUND',
+        payload: axios.get(`${url}/sounds`,
         {
             headers: {
                 'authorization': 'khusni'

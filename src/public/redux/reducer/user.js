@@ -1,9 +1,12 @@
 const initialState = {
-    data: [],
+    token: null,
+    id_user: null,
+    email: null,
+    fullname: null,
+    user: null,
     isLoading: false,
     isError: false,
     isFulfilled: false,
-    token: '',
 }
 
 const user = (state = initialState, action) => {
@@ -28,8 +31,14 @@ const user = (state = initialState, action) => {
                 isLoading: false,
                 isError: false,
                 isFulfilled: true,
-                data: action.payload.data.result
+                user: action.payload.data.result,
+                id_user: action.payload.data.result.id_user,
+                email: action.payload.data.result.email,
+                token: action.payload.data.result.token,
+                fullname: action.payload.data.result.fullname
             }
+        default: // need this for default case
+            return state 
     }
 }
 

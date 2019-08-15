@@ -1,10 +1,11 @@
 import axios from 'axios'
 import { AsyncStorage } from 'react-native'
+const url = 'http://192.168.6.196:3002'
 
-export const login = (data) => {
+export const getPattern = () => {
     return {
-        type: 'LOGIN',
-        payload: axios.post('http://192.168.6.196:3002/users/login', data, 
+        type: 'GET_PATTERN',
+        payload: axios.get(`${url}/patterns`,
         {
             headers: {
                 'authorization': 'khusni'

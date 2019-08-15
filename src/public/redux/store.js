@@ -1,20 +1,11 @@
-import { createStore, applyMiddleware } from 'redux';
-import { createLogger } from 'redux-logger';
+import {createStore, applyMiddleware} from 'redux';
+import {createLogger} from 'redux-logger';
 import promiseMiddleware from 'redux-promise-middleware';
 
-// import reducer
-import rootReducer from './reducer';
+import reducers from './reducer';
 
-// logging for debugging
 const logger = createLogger();
 
-// define store
-const store = createStore(
-    rootReducer,
-    applyMiddleware(
-        logger,
-        promiseMiddleware
-    )
-)
+const store = createStore(reducers, applyMiddleware(logger, promiseMiddleware));
 
 export default store;
