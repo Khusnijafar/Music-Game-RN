@@ -1,10 +1,27 @@
 
 <h1 align="center">Music Game App</h1>
 
+## Table of Contents
+
+- [Table of Contents](#table-of-contents)
+- [Introduction](#introduction)
+- [Features](#features)
+- [Requirements](#requirements)
+- [Usage](#usage)
+- [Screenshoot](#screenshoot)
+- [Related Project](#related-project)
+- [Maker](#maker)
+
 ## Introduction
 
-
 Music Game App is an application playing game that you must touch a button and follow guidance button 
+
+## Features
+
+- Register
+- Login
+- Play Game
+- Leader Board
 
 ## Requirements
 
@@ -20,7 +37,7 @@ Music Game App is an application playing game that you must touch a button and f
 - Connect your phone to the pc or laptop and make sure your phone is connected with debugging mode
 - Finnaly, type `react-native run-android` and wait for the process to complete
 
-## Demo
+## Screenshoot
 
 ### First Page
 <img src="https://i.imgur.com/74FfXUA.jpg?1" title="source: imgur.com" width='500px'/>
